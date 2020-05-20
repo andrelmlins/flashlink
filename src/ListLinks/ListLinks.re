@@ -39,7 +39,7 @@ let reducer = (state, action) => {
 
     let result =
       switch (listStorage) {
-      |> Some(listStorage') =>
+      | Some(listStorage') =>
         Js_json.decodeArray(Js_json.parseExn(listStorage'))
       | None => [||]
       };
