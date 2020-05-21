@@ -4,22 +4,30 @@ type item = {
   description: string,
 };
 
-type state = {
-  list: array(item),
-  count: int,
+module Decode = {
+  let option = json =>
+    Json.Decode.{
+      name: json |> field("name", string),
+      link: json |> field("link", string),
+      description: json |> field("description", string),
+    };
+
+  let all = Json.Decode.array(option);
 };
+
+type state = {list: array(item)};
 
 type action =
   | Create(string, string, string)
   | ShowList;
 
-let initialState = {list: [||], count: 0};
+let initialState = {list: [||]};
 
 let reducer = (state, action) => {
   switch (action) {
   | Create(name, link, description) =>
     let newItem: item = {name, link, description};
-    let a = Js.Array.push(newItem, state.list);
+    Js.Array.push(newItem, state.list);
     let listString = Js_json.stringifyAny(state.list);
 
     switch (listString) {
@@ -39,8 +47,7 @@ let reducer = (state, action) => {
 
     let result =
       switch (listStorage) {
-      | Some(listStorage') =>
-        Js_json.decodeArray(Js_json.parseExn(listStorage'))
+      | Some(listStorage') => listStorage' |> Js_json.parseExn |> Decode.all
       | None => [||]
       };
 
@@ -54,7 +61,7 @@ let make = () => {
   let (name, setName) = React.useState(() => "");
   let (link, setLink) = React.useState(() => "");
   let (description, setDescription) = React.useState(() => "");
-
+  Js.log(state.list);
   React.useEffect0(() => {
     dispatch(ShowList);
 
@@ -71,6 +78,15 @@ let make = () => {
         </tr>
       </thead>
       <tbody>
+        {state.list
+         ->Belt.Array.map(item =>
+             <tr>
+               <td> {React.string(item.name)} </td>
+               <td> {React.string(item.link)} </td>
+               <td> {React.string(item.description)} </td>
+             </tr>
+           )
+         ->React.array}
         <tr>
           <td>
             <input
