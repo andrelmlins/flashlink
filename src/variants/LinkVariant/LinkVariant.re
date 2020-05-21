@@ -1,13 +1,13 @@
 type variant = {
   name: string,
-  link: string,
+  url: string,
   description: string,
 };
 
 let decodeJson = json =>
   Json.Decode.{
     name: json |> field("name", string),
-    link: json |> field("link", string),
+    url: json |> field("url", string),
     description: json |> field("description", string),
   };
 

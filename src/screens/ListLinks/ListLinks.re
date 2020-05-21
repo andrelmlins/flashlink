@@ -3,7 +3,7 @@ let make = () => {
   let (state, dispatch) =
     React.useReducer(LinkReducer.reducer, LinkReducer.initialState);
   let (name, setName) = React.useState(() => "");
-  let (link, setLink) = React.useState(() => "");
+  let (url, setUrl) = React.useState(() => "");
   let (description, setDescription) = React.useState(() => "");
 
   React.useEffect0(() => {
@@ -23,12 +23,8 @@ let make = () => {
       </thead>
       <tbody>
         {state.list
-         ->Belt.Array.map(item =>
-             <tr>
-               <td> {React.string(item.name)} </td>
-               <td> {React.string(item.link)} </td>
-               <td> {React.string(item.description)} </td>
-             </tr>
+         ->Belt.Array.mapWithIndex((index, item) =>
+             <LineLink link=item id=index dispatch />
            )
          ->React.array}
         <tr>
@@ -43,10 +39,10 @@ let make = () => {
           </td>
           <td>
             <input
-              value=link
+              value=url
               onChange={e => {
                 let value = ReactEvent.Form.target(e)##value;
-                setLink(_ => value);
+                setUrl(_ => value);
               }}
             />
           </td>
@@ -61,8 +57,8 @@ let make = () => {
           </td>
           <td>
             <button
-              onClick={_ => {dispatch(Create(name, link, description))}}>
-              {React.string("Salvar")}
+              onClick={_ => {dispatch(Create(name, url, description))}}>
+              {React.string("Cadastrar")}
             </button>
           </td>
         </tr>
