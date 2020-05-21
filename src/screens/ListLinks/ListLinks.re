@@ -1,67 +1,11 @@
-type item = {
-  name: string,
-  link: string,
-  description: string,
-};
-
-module Decode = {
-  let option = json =>
-    Json.Decode.{
-      name: json |> field("name", string),
-      link: json |> field("link", string),
-      description: json |> field("description", string),
-    };
-
-  let all = Json.Decode.array(option);
-};
-
-type state = {list: array(item)};
-
-type action =
-  | Create(string, string, string)
-  | ShowList;
-
-let initialState = {list: [||]};
-
-let reducer = (state, action) => {
-  switch (action) {
-  | Create(name, link, description) =>
-    let newItem: item = {name, link, description};
-    Js.Array.push(newItem, state.list);
-    let listString = Js_json.stringifyAny(state.list);
-
-    switch (listString) {
-    | Some(listString') =>
-      Dom_storage.setItem(
-        "@flashlink:list",
-        listString',
-        Dom_storage.localStorage,
-      )
-    | None => ()
-    };
-
-    state;
-  | ShowList =>
-    let listStorage =
-      Dom_storage.getItem("@flashlink:list", Dom_storage.localStorage);
-
-    let result =
-      switch (listStorage) {
-      | Some(listStorage') => listStorage' |> Js_json.parseExn |> Decode.all
-      | None => [||]
-      };
-
-    {list: result};
-  };
-};
-
 [@react.component]
 let make = () => {
-  let (state, dispatch) = React.useReducer(reducer, initialState);
+  let (state, dispatch) =
+    React.useReducer(LinkReducer.reducer, LinkReducer.initialState);
   let (name, setName) = React.useState(() => "");
   let (link, setLink) = React.useState(() => "");
   let (description, setDescription) = React.useState(() => "");
-  Js.log(state.list);
+
   React.useEffect0(() => {
     dispatch(ShowList);
 
