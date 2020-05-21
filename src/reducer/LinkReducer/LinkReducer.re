@@ -3,6 +3,7 @@ type state = {list: array(LinkVariant.variant)};
 type action =
   | Create(string, string, string)
   | Edit(int, string, string, string)
+  | Delete(int)
   | ShowList;
 
 let initialState = {list: [||]};
@@ -41,6 +42,21 @@ let reducer = (state, action) => {
     };
 
     {list: state.list};
+  | Delete(id) =>
+    let list = Js.Array.removeFromInPlace(~pos=id, state.list);
+    let listString = Js_json.stringifyAny(list);
+
+    switch (listString) {
+    | Some(listString') =>
+      Dom_storage.setItem(
+        "@flashlink:list",
+        listString',
+        Dom_storage.localStorage,
+      )
+    | None => ()
+    };
+
+    {list: list};
   | ShowList =>
     let listStorage =
       Dom_storage.getItem("@flashlink:list", Dom_storage.localStorage);

@@ -45,7 +45,9 @@ let make = (~link: LinkVariant.variant, ~id: int, ~dispatch) => {
              <button onClick={_ => setEdit(_ => true)}>
                {React.string("Editar")}
              </button>
-             <button> {React.string("Deletar")} </button>
+             <button onClick={_ => {dispatch(LinkReducer.Delete(id))}}>
+               {React.string("Deletar")}
+             </button>
            </>
          : <>
              <button
