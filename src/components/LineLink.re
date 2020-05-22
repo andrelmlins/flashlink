@@ -42,23 +42,33 @@ let make = (~link: LinkVariant.variant, ~id: int, ~dispatch) => {
     <td>
       {!edit
          ? <>
-             <button onClick={_ => setEdit(_ => true)}>
-               {React.string("Editar")}
+             <button
+               className="btn btn-info btn-sm"
+               onClick={_ => setEdit(_ => true)}
+               ariaLabel="Edit">
+               <i className="fa fa-edit" />
              </button>
-             <button onClick={_ => {dispatch(LinkReducer.Delete(id))}}>
-               {React.string("Deletar")}
+             <button
+               className="btn btn-danger btn-sm"
+               onClick={_ => {dispatch(LinkReducer.Delete(id))}}
+               ariaLabel="Delete">
+               <i className="far fa-trash-alt" />
              </button>
            </>
          : <>
              <button
+               className="btn btn-success btn-sm"
                onClick={_ => {
                  dispatch(LinkReducer.Edit(id, name, url, description));
                  setEdit(_ => false);
                }}>
-               {React.string("Salvar")}
+               <i className="fas fa-check" />
              </button>
-             <button onClick={_ => setEdit(_ => false)}>
-               {React.string("Cancelar")}
+             <button
+               className="btn btn-secondary btn-sm"
+               onClick={_ => setEdit(_ => false)}
+               ariaLabel="Cancel">
+               <i className="fa fa-backspace" />
              </button>
            </>}
     </td>
