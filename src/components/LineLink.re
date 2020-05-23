@@ -9,6 +9,7 @@ let make = (~link: LinkVariant.variant, ~id: int, ~dispatch) => {
     <td>
       {edit
          ? <input
+             className="form-control form-control-sm"
              value=name
              onChange={e => {
                let value = ReactEvent.Form.target(e)##value;
@@ -20,6 +21,7 @@ let make = (~link: LinkVariant.variant, ~id: int, ~dispatch) => {
     <td>
       {edit
          ? <input
+             className="form-control form-control-sm"
              value=url
              onChange={e => {
                let value = ReactEvent.Form.target(e)##value;
@@ -31,6 +33,7 @@ let make = (~link: LinkVariant.variant, ~id: int, ~dispatch) => {
     <td>
       {edit
          ? <input
+             className="form-control form-control-sm"
              value=description
              onChange={e => {
                let value = ReactEvent.Form.target(e)##value;

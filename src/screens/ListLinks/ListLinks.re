@@ -55,7 +55,7 @@ let make = () => {
               <td>
                 <input
                   value=name
-                  className="form-control"
+                  className="form-control form-control-sm"
                   placeholder="Name"
                   onChange={e => {
                     let value = ReactEvent.Form.target(e)##value;
@@ -66,7 +66,7 @@ let make = () => {
               <td>
                 <input
                   value=url
-                  className="form-control"
+                  className="form-control form-control-sm"
                   placeholder="Link"
                   onChange={e => {
                     let value = ReactEvent.Form.target(e)##value;
@@ -77,7 +77,7 @@ let make = () => {
               <td>
                 <input
                   value=description
-                  className="form-control"
+                  className="form-control form-control-sm"
                   placeholder="Description"
                   onChange={e => {
                     let value = ReactEvent.Form.target(e)##value;
