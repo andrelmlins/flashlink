@@ -1,4 +1,4 @@
-# FlashLink
+# [FlashLink](https://flashlink.netlify.app/)
 
 Save links in storage
 
@@ -21,3 +21,7 @@ Open a new web page to `http://localhost:8000/`. Change any `.re` file in `src` 
 npm install
 npm build:prod
 ```
+
+## License
+
+Flashlink is open source software [licensed as MIT](https://github.com/andrelmlins/flashlink/blob/master/LICENSE).
