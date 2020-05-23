@@ -43,8 +43,8 @@ let reducer = (state, action) => {
 
     {list: state.list};
   | Delete(id) =>
-    let list = Js.Array.removeFromInPlace(~pos=id, state.list);
-    let listString = Js_json.stringifyAny(list);
+    Js.Array.removeCountInPlace(~pos=id, ~count=1, state.list);
+    let listString = Js_json.stringifyAny(state.list);
 
     switch (listString) {
     | Some(listString') =>
@@ -56,7 +56,7 @@ let reducer = (state, action) => {
     | None => ()
     };
 
-    {list: list};
+    {list: state.list};
   | ShowList =>
     let listStorage =
       Dom_storage.getItem("@flashlink:list", Dom_storage.localStorage);

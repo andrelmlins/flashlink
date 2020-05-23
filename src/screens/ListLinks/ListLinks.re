@@ -5,6 +5,7 @@ let make = () => {
   let (name, setName) = React.useState(() => "");
   let (url, setUrl) = React.useState(() => "");
   let (description, setDescription) = React.useState(() => "");
+  let nameInputRef = React.useRef(Js.Nullable.null);
 
   React.useEffect0(() => {
     dispatch(ShowList);
@@ -61,6 +62,7 @@ let make = () => {
                     let value = ReactEvent.Form.target(e)##value;
                     setName(_ => value);
                   }}
+                  ref={ReactDOMRe.Ref.domRef(nameInputRef)}
                 />
               </td>
               <td>
@@ -88,9 +90,19 @@ let make = () => {
               <td>
                 <button
                   className="btn btn-primary btn-sm"
-                  onClick={_ => {dispatch(Create(name, url, description))}}>
-                  {React.string("Cadastrar")}
-                </button>
+                  onClick={_ => {
+                    dispatch(Create(name, url, description));
+                    setName(_ => "");
+                    setUrl(_ => "");
+                    setDescription(_ => "");
+
+                    switch (Js.Nullable.toOption(nameInputRef.current)) {
+                    | Some(n) => ReactDOMRe.domElementToObj(n)##focus()
+                    | None => ()
+                    };
+                  }}>
+                  /* nameInputRef.current.focus(); */
+                   {React.string("Cadastrar")} </button>
               </td>
             </tr>
           </tbody>

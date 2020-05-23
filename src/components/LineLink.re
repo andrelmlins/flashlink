@@ -10,6 +10,7 @@ let make = (~link: LinkVariant.variant, ~id: int, ~dispatch) => {
       {edit
          ? <input
              className="form-control form-control-sm"
+             autoFocus=true
              value=name
              onChange={e => {
                let value = ReactEvent.Form.target(e)##value;
