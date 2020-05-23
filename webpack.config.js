@@ -1,14 +1,22 @@
-const path = require('path');
+const path = require("path");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
+
+const PUBLIC_PATH = "./public";
 
 module.exports = {
-  entry: './src/Index.bs.js',
-  // If you ever want to use webpack during development, change 'production'
-  // to 'development' as per webpack documentation. Again, you don't have to
-  // use webpack or any other bundler during development! Recheck README if
-  // you didn't know this
-  mode: 'production',
+  entry: "./src/Index.bs.js",
   output: {
-    path: path.join(__dirname, "bundleOutput"),
-    filename: 'index.js',
+    path: path.resolve(__dirname, "build"),
+    filename: "static/js/build.js",
+    globalObject: "this"
   },
+  mode: "production",
+  plugins: [
+    new CopyPlugin({ patterns: [{ from: "public", to: "." }] }),
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: `${PUBLIC_PATH}/index.html`
+    })
+  ]
 };
