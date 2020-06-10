@@ -29,7 +29,7 @@ let make = (~link: LinkVariant.variant, ~id: int, ~dispatch) => {
                setUrl(_ => value);
              }}
            />
-         : React.string(link.url)}
+         : <a href={link.url} target="_blank"> {React.string(link.url)} </a>}
     </td>
     <td>
       {edit
